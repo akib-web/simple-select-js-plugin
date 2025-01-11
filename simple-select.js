@@ -25,6 +25,7 @@ const simpleSelect = {
             parentNode.appendChild(selectedDiv); 
             parentNode.appendChild(dropDownElement); 
             console.log('dropDownElement node created and appended successfully.'); 
+            
             if(simpleSelect.isSearchable){
                 const searchInput = document.createElement('input'); 
                 searchInput.className = 'simsl_search_input'; 
@@ -37,16 +38,19 @@ const simpleSelect = {
 
             Array.from(selectElement.options).forEach(optionData => {
                 const optionDiv = document.createElement('div');
-                const img = document.createElement('img');
-                // console.warn(optionData.getAttribute('imgSrc'));
-                var imgSrc = optionData.getAttribute('imgSrc');
+
                 var title = optionData.getAttribute('title');
                 var value = optionData.getAttribute('value');
+                var imgSrc = optionData.getAttribute('imgSrc');
 
-                img.src = imgSrc;
-                img.alt = title;
+                if(simpleSelect.isImage && imgSrc && title){
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = title;
+                    optionDiv.appendChild(img);
+                }
+
                 const textNode = document.createTextNode(title);
-                optionDiv.appendChild(img);
                 optionDiv.appendChild(textNode);
 
                 optionDiv.addEventListener('click', () => {
