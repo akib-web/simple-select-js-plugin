@@ -57,7 +57,7 @@ const simpleSelect = {
                     selectedDiv.innerHTML = optionDiv.innerHTML; // Set the simsl_item_selected item
                     selectElement.value = value; // Set the value for form submission
                     //selectItemsDiv.style.display = 'none'; // Close the dropdown
-                    parentNode.classList.toggle('active');
+                    parentNode.classList.toggle('simsl_dropdown_active');
                 });
 
                 dropDownElement.appendChild(optionDiv);
@@ -65,13 +65,13 @@ const simpleSelect = {
 
             // Toggle dropdown visibility
             selectedDiv.addEventListener('click', () => {
-                parentNode.classList.toggle('active');
+                parentNode.classList.toggle('simsl_dropdown_active');
             });
 
             // Close dropdown if clicked outside
             window.addEventListener('click', (e) => {
                 if (!parentNode.contains(e.target)) {
-                    parentNode.classList.remove('active');
+                    parentNode.classList.remove('simsl_dropdown_active');
                 }
             });
 

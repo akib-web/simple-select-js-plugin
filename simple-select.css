@@ -36,7 +36,7 @@
     background-color: #f1f1f1;
 }
 
-.simsl_select_wrapper.active .simsl_select_items {
+.simsl_select_wrapper.simsl_dropdown_active .simsl_select_items {
     display: block;
 }
 
