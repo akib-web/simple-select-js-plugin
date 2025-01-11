@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select with Image and Title</title>
+    <link rel="stylesheet" id="" href="simple-select.css">
+</head>
+<body>
+
+    <form method="get" action="/">
+        <select id="calculator_sendto" name="calculator_sendto">
+            <!-- Hidden select, used to submit the form -->
+            <option value="1" title="Option 1" imgSrc="https://danesh.bitbirds.net/order-currency//storage/5/Flag_of_the_United_States.png">Option 1</option>
+            <option value="2" title="Option 2" imgSrc="https://remit.daneshexchange.com/assets/uploads/country/63299871439a11663670385.png">Option 2</option>
+        </select>
+        <button type="submit"> Submit </button>
+    </form>
+
+    <script src="simple-select.js"></script>
+    <script>
+        // simpleSelect.
+        simpleSelect.isSearchable = true;
+        simpleSelect.placeholder = 'Select an option' ;
+        simpleSelect.render(['calculator_sendto']);
+        
+    </script>
+
+
+</body>
+</html>
