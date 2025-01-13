@@ -38,6 +38,8 @@ const simpleSelect = {
 
             Array.from(selectElement.options).forEach(optionData => {
                 const optionDiv = document.createElement('div');
+                optionDiv.setAttribute("country_id", optionData.getAttribute('value'));
+                optionDiv.className = optionData.getAttribute('selected') ? 'selected' :'';
 
                 var title = optionData.getAttribute('title');
                 var value = optionData.getAttribute('value');
@@ -56,12 +58,18 @@ const simpleSelect = {
                 optionDiv.addEventListener('click', () => {
                     selectedDiv.innerHTML = optionDiv.innerHTML; // Set the simsl_item_selected item
                     selectElement.value = value; // Set the value for form submission
+                    selectElement.dispatchEvent(new Event('change')); // set the select value. this will enable the updated value
                     //selectItemsDiv.style.display = 'none'; // Close the dropdown
                     parentNode.classList.toggle('simsl_dropdown_active');
                 });
 
                 dropDownElement.appendChild(optionDiv);
+
+                // if(optionData.getAttribute('selected')){
+                //     selectedDiv.innerHTML = optionDiv.innerHTML; // Set the simsl_item_selected item
+                // }
             });
+            
 
             // Toggle dropdown visibility
             selectedDiv.addEventListener('click', () => {
@@ -92,9 +100,24 @@ const simpleSelect = {
                     });
                 });
             }
+            
+  
+
+            const setSelectedCountry = setInterval(function () {
+                const countryId = selectElement.querySelector('option:checked').value;
+                const matchingElement = dropDownElement.querySelector(`[country_id="${countryId}"]`);
+                if (matchingElement) {
+                    selectedDiv.innerHTML = matchingElement.innerHTML;
+                }
+            }, 100);
+            setTimeout(function(){
+                selectElement.dispatchEvent(new Event('change'));
+                clearInterval(setSelectedCountry);
+            },1000)
         } 
         else{ 
             console.error('Element with ID #calculator_sendto not found.'); 
         }
     },
+    callback : (callback) => {callback()} 
 }
