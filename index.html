@@ -18,14 +18,15 @@
     </form>
 
     <script src="simple-select.js"></script>
-    <script>
-        // simpleSelect.
-        simpleSelect.isSearchable = true;
-        simpleSelect.placeholder = 'Select an option' ;
-        simpleSelect.render(['calculator_sendto']);
-        
-    </script>
 
+<script type="text/javascript">
+    initializeSimpleSelect({
+        selectId: 'calculator_sendto',
+        isSearchable: true,
+        isImage: true,
+        placeholder: 'Select an option',
+    });
+</script>
 
 </body>
 </html>
