@@ -6,26 +6,26 @@ function initializeSimpleSelect({
 }) {
     console.log('Initializing Simple Select for ID:', selectId);
 
-    const selectElement = document.getElementById(selectId); 
+    let selectElement = document.getElementById(selectId); 
     if (selectElement) { 
-        const parentNode = document.createElement('div');
-        parentNode.className = 'simsl_select_wrapper';
+        let parentNode = document.createElement('div');
+        parentNode.className = `${selectId}_simsl_select_wrapper simsl_select_wrapper`;
         selectElement.parentNode.insertBefore(parentNode, selectElement); 
         parentNode.appendChild(selectElement);
 
-        const dropDownElement = document.createElement('div'); 
-        dropDownElement.className = 'simsl_select_items'; 
+        let dropDownElement = document.createElement('div'); 
+        dropDownElement.className = `${selectId}_simsl_select_items simsl_select_items`; 
 
-        const selectedDiv = document.createElement('div'); 
-        selectedDiv.className = 'simsl_item_selected'; 
+        let selectedDiv = document.createElement('div'); 
+        selectedDiv.className = `${selectId}_simsl_item_selected simsl_item_selected`; 
         selectedDiv.innerText = placeholder;
 
         parentNode.appendChild(selectedDiv); 
         parentNode.appendChild(dropDownElement); 
 
         if (isSearchable) {
-            const searchInput = document.createElement('input'); 
-            searchInput.className = 'simsl_search_input'; 
+            let searchInput = document.createElement('input'); 
+            searchInput.className = `${selectId}_simsl_search_input simsl_search_input`; 
             searchInput.type = 'text';
             searchInput.placeholder = 'Search...';
             searchInput.id = `${selectId}_searchInput`;
@@ -33,22 +33,22 @@ function initializeSimpleSelect({
         }
 
         Array.from(selectElement.options).forEach(optionData => {
-            const optionDiv = document.createElement('div');
+            let optionDiv = document.createElement('div');
             optionDiv.setAttribute("country_id", optionData.getAttribute('value'));
             optionDiv.className = optionData.getAttribute('selected') ? 'selected' : '';
 
-            const title = optionData.getAttribute('title');
-            const value = optionData.getAttribute('value');
-            const imgSrc = optionData.getAttribute('imgSrc');
+            let title = optionData.getAttribute('title');
+            let value = optionData.getAttribute('value');
+            let imgSrc = optionData.getAttribute('imgSrc');
 
             if (isImage && imgSrc && title) {
-                const img = document.createElement('img');
+                let img = document.createElement('img');
                 img.src = imgSrc;
                 img.alt = title;
                 optionDiv.appendChild(img);
             }
 
-            const textNode = document.createTextNode(title);
+            let textNode = document.createTextNode(title);
             optionDiv.appendChild(textNode);
 
             optionDiv.addEventListener('click', () => {
@@ -71,33 +71,43 @@ function initializeSimpleSelect({
             }
         });
 
-        const selectItemsDiv = parentNode.querySelector('.simsl_select_items');
+        let selectItemsDiv = parentNode.querySelector(`.${selectId}_simsl_select_items`);
 
         if (isSearchable) {
-            const searchInput = dropDownElement.querySelector(`#${selectId}_searchInput`);
+            let searchInput = dropDownElement.querySelector(`#${selectId}_searchInput`);
             searchInput.addEventListener('input', () => {
-                const filter = searchInput.value.toLowerCase();
-                const options = selectItemsDiv.querySelectorAll('div');
+                let filter = searchInput.value.toLowerCase();
+                let options = selectItemsDiv.querySelectorAll('div');
 
                 options.forEach(option => {
-                    const text = option.textContent || option.innerText;
+                    let text = option.textContent || option.innerText;
                     option.style.display = text.toLowerCase().includes(filter) ? '' : 'none';
                 });
             });
         }
 
-        const setSelectedCountry = setInterval(() => {
-            const countryId = selectElement.querySelector('option:checked').value;
-            const matchingElement = dropDownElement.querySelector(`[country_id="${countryId}"]`);
+        let setSelectedCountry = setInterval(() => {
+            let countryId = selectElement.querySelector('option:checked').value;
+            let matchingElement = dropDownElement.querySelector(`[country_id="${countryId}"]`);
             if (matchingElement) {
                 selectedDiv.innerHTML = matchingElement.innerHTML;
             }
         }, 100);
 
-        setTimeout(() => {
-            selectElement.dispatchEvent(new Event('change'));
-            clearInterval(setSelectedCountry);
-        }, 1000);
+        // setTimeout(() => {
+            // selectElement.dispatchEvent(new Event('change'));
+            // clearInterval(setSelectedCountry);
+        // }, 1000);
+
+        window.onload = () => {
+            let interval = setInterval(() => {
+                if (selectElement) {
+                    selectElement.dispatchEvent(new Event('change'));
+                    clearInterval(interval);
+                    clearInterval(setSelectedCountry);
+                }
+            }, 100); // Check every 500ms until it's ready
+        };
     } else { 
         console.error(`Element with ID #${selectId} not found.`); 
     }
